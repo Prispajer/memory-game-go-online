@@ -1,0 +1,31 @@
+@use "sass:color";
+@use "variables" as *;
+@use "mixins" as m;
+
+.tile {
+  @include m.flex-center;
+  width: $tile-size;
+  height: $tile-size;
+  font-size: 32px;
+  font-weight: bold;
+  border-radius: $border-radius;
+  border: 2px solid $tile-border;
+  background: $tile-bg;
+  cursor: pointer;
+  transition: transform 0.4s ease, background 0.3s ease;
+
+  &:hover {
+    background: color.adjust($primary-color, $lightness: 20%);
+  }
+
+  &.flipped {
+    transform: rotateY(180deg);
+    background: $secondary-color;
+  }
+
+  &.matched {
+    background: $matched-color;
+    border-color: color.adjust($matched-color, $lightness: -10%);
+    cursor: default;
+  }
+}

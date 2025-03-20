@@ -1,0 +1,14 @@
+@use "tile";
+@use "variables" as *;
+@use "mixins" as m;
+@use "gameboard" as gb;
+
+body {
+  font-family: $font-stack;
+  background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
