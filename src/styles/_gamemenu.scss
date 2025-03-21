@@ -1,0 +1,104 @@
+@use "mixins" as m;
+
+.game-menu {
+  position: fixed;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1001;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  @include m.game-menu-gradient-bg;
+  @include m.cursor-default;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #f2d9a2;
+    font-weight: 800;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #f2f2f2;
+    font-weight: 800;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+    color: #605640;
+    font-weight: 800;
+    margin-bottom: 15px;
+    border: 1px solid #fbf3e3;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #fbf3e3;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background: #f9efd9;
+    }
+
+    &:focus {
+      border-color: #f9efd9;
+      outline: none;
+    }
+  }
+
+  option {
+    color: #605640;
+    font-weight: 800;
+  }
+
+  .game-menu__difficulty,
+  .game-menu__theme {
+    text-align: left;
+    margin-bottom: 15px;
+  }
+
+  .game-menu__info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+    background: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .game-menu__start-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    border: none;
+    border-radius: 5px;
+    background: #f2d9a2;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #d9c391;
+    }
+  }
+}
+
+.game-menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}

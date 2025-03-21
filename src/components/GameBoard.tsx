@@ -1,75 +1,92 @@
 import React from "react";
-
-export enum Difficulty {
-  Easy = 8,
-  Medium = 12,
-  Hard = 16,
-  Extreme = 20,
-}
-
-export type Themes = {
-  animals: string[];
-  fruits: string[];
-  music: string[];
-  space: string[];
-  fantasy: string[];
-  sports: string[];
-};
-
-const themes: Themes = {
-  animals: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐯", "🦁"],
-  fruits: ["🍎", "🍌", "🍇", "🍉", "🍒", "🍓", "🍑", "🥭", "🍍", "🍐"],
-  music: ["🎵", "🎸", "🎺", "🥁", "🎻", "🎤", "🎧", "📯", "🎹", "🎼"],
-  space: ["🚀", "🪐", "🌌", "🌠", "🌕", "🌍", "🌞", "🌛", "👾", "🛰️"],
-  sports: ["⚽", "🏀", "🏈", "🎾", "🏓", "🥊", "🏋️", "⛷️", "🏄", "🚴"],
-  fantasy: ["🦄", "🐲", "🧙‍♂️", "🧝‍♀️", "🐉", "✨", "🧞‍♂️", "🦹‍♂️", "🧛‍♂️", "🔮"],
-};
+import GameStats from "./GameStats";
+import { useGameState } from "../hooks/useGameState";
+import { generateGameBoard } from "../utils/gameSettings";
+import { GameDifficulty } from "../types/enum";
+import { GameState } from "../types/enum";
+import { Tile } from "../types/interface";
 
 const GameBoard = () => {
-  const themesKeys = Object.keys(themes) as Array<keyof Themes>;
-  const [difficulty, setDifficulty] = React.useState<Difficulty>(
-    Difficulty.Medium
-  );
-  const [selectedTheme, setSelectedTheme] =
-    React.useState<keyof Themes>("animals");
+  const {
+    gameState,
+    gamePredefinedTileSet,
+    gamePredefinedTileSets,
+    gameDifficulty,
+    generatedTiles,
+    revealedTiles,
+    setGamePredefinedTileSets,
+    setGeneratedTiles,
+    revealTile,
+    startTimer,
+  } = useGameState();
 
-  const duplicatedThemes = [
-    ...themes[selectedTheme].slice(0, difficulty),
-    ...themes[selectedTheme].slice(0, difficulty),
-  ].sort(() => Math.random() - 0.5);
+  React.useEffect(() => {
+    if (gameState === GameState.Playing) {
+      const selectedTiles = gamePredefinedTileSets
+        ? gamePredefinedTileSets
+        : [];
+      setGeneratedTiles(
+        generateGameBoard(
+          selectedTiles as string[],
+          gameDifficulty as GameDifficulty
+        )
+      );
+      startTimer();
+    } else {
+      setGeneratedTiles(null);
+    }
+  }, [
+    gameState,
+    gamePredefinedTileSet,
+    gameDifficulty,
+    gamePredefinedTileSets,
+    setGamePredefinedTileSets,
+    startTimer,
+    setGeneratedTiles,
+  ]);
 
-  console.log(duplicatedThemes);
+  const handleTileClick = (id: string) => {
+    revealTile(id);
+  };
 
-  const randomTiles = duplicatedThemes.map((emoji, index) => (
-    <div key={index} className="tile">
-      {emoji}
-    </div>
-  ));
+  const getTileStyle = (tile: Tile) => {
+    if (tile.isMatched) return { backgroundColor: "green", cursor: "default" };
+    if (revealedTiles.some((revealed) => revealed.id === tile.id))
+      return { backgroundColor: "lightblue" };
+    return { backgroundColor: "gray" };
+  };
+
+  console.log(revealedTiles);
+  console.log(generatedTiles);
 
   return (
     <div className="game-container">
-      <select
-        onChange={(event) =>
-          setSelectedTheme(event.target.value as keyof Themes)
-        }
-      >
-        {themesKeys.map((key) => (
-          <option key={key} value={key}>
-            {key}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={(event) =>
-          setDifficulty(parseInt(event.target.value) as Difficulty)
-        }
-      >
-        <option value={Difficulty.Easy}>Easy</option>
-        <option value={Difficulty.Medium}>Medium</option>
-        <option value={Difficulty.Hard}>Hard</option>
-        <option value={Difficulty.Extreme}>Extreme</option>
-      </select>
-      <div className="game-board">{randomTiles}</div>
+      <GameStats />
+      {(generatedTiles ?? []).length > 0 ? (
+        <div
+          data-difficulty-grid={
+            gameDifficulty ? GameDifficulty[gameDifficulty].toLowerCase() : null
+          }
+          className="game-board"
+        >
+          {generatedTiles?.map((tile) => (
+            <button
+              className="tile"
+              style={getTileStyle(tile)}
+              onClick={() => handleTileClick(tile.id)}
+              disabled={tile.isMatched}
+            >
+              {revealedTiles.some((revealed) => revealed.id === tile.id)
+                ? tile.value
+                : null}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <p className="game-board__empty">
+          No tiles available. Please select a predefined set.
+        </p>
+      )}
     </div>
   );
 };

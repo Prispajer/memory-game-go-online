@@ -1,7 +1,11 @@
 @use "variables" as *;
 
-@mixin gradient-bg {
+@mixin game-container-gradient-bg {
   background: linear-gradient(135deg, $primary-color, $secondary-color);
+}
+
+@mixin game-menu-gradient-bg {
+  background: linear-gradient(235deg, $primary-color, $secondary-color);
 }
 
 @mixin shadow {
@@ -12,6 +16,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin cursor-default {
+  cursor: default;
 }
 
 @mixin responsive($breakpoint) {

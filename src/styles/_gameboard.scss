@@ -1,20 +1,50 @@
 @use "variables" as *;
-@use "mixins" as *;
+@use "mixins" as m;
 
 .game-board {
-  @include flex-center;
+  @include m.flex-center;
   flex-wrap: wrap;
-  gap: 4px;
-  width: 800px;
-  height: 600px;
-  margin: 50px auto;
-  padding: 20px;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  padding: 50px;
   border-radius: $border-radius;
-  @include shadow;
-  @include gradient-bg;
+  @include m.shadow;
+  @include m.game-container-gradient-bg;
 
-  @include responsive(mobile) {
-    width: 90%;
-    height: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 10px;
+
+  &[data-difficulty-grid="easy"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+  }
+
+  &[data-difficulty-grid="medium"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    place-items: center;
+  }
+
+  &[data-difficulty-grid="hard"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+  }
+
+  &[data-difficulty-grid="extreme"] {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+  }
+
+  @include m.responsive(mobile) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    place-items: center;
   }
 }

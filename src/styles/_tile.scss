@@ -2,10 +2,27 @@
 @use "variables" as *;
 @use "mixins" as m;
 
+// Kolory
+$primary-color: #ff9a9e;
+$secondary-color: #fad0c4;
+$tile-bg: #ffffff;
+$tile-border: #e1e1e1;
+$matched-color: #a0e7a0;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+// Fonty i rozmiary
+$font-stack: "Poppins", sans-serif;
+$tile-size: 85px;
+$border-radius: 12px;
+
 .tile {
   @include m.flex-center;
-  width: $tile-size;
-  height: $tile-size;
+  min-width: $tile-size;
+  width: 100%;
+  max-width: 150px;
+  min-height: $tile-size;
+  height: 100%;
+  max-height: 150px;
   font-size: 32px;
   font-weight: bold;
   border-radius: $border-radius;

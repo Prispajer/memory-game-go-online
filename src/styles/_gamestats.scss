@@ -1,0 +1,56 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.game-stats-container {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: $border-radius;
+  background: linear-gradient(135deg, #8e44ad, #c0392b);
+  color: white;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+
+  @include responsive(mobile) {
+    flex-direction: column;
+    text-align: left;
+    padding: 15px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
+  @include cursor-default;
+}
+
+.game-end button {
+  background: $primary-color;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background: darken($primary-color, 10%);
+    transform: scale(1.05);
+  }
+}

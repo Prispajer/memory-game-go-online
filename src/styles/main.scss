@@ -2,13 +2,27 @@
 @use "variables" as *;
 @use "mixins" as m;
 @use "gameboard" as gb;
+@use "gamemenu" as *;
+@use "gamestats" as *;
 
 body {
   font-family: $font-stack;
-  background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
-  min-height: 100vh;
+  background: linear-gradient(135deg, #fcb08e, #e0c3fc);
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
+}
+
+.game-container {
+  @include m.flex-center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  padding: 50px;
+  border-radius: $border-radius;
 }

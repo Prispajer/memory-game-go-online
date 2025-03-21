@@ -1,13 +1,12 @@
-import React from "react";
+import GameMenu from "./components/GameMenu";
 import GameBoard from "./components/GameBoard";
 
 const App = () => {
-  const [playerMove, SetPlayerMove] = React.useState<string>("");
-
   return (
-    <div>
+    <>
+      <GameMenu />
       <GameBoard />
-    </div>
+    </>
   );
 };
 
