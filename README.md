@@ -4,7 +4,7 @@
 
 Aby pobrać repozytorium na swój komputer, skorzystaj z poniższej komendy:
 
-git clone https://gitlab.com/Prispajer/memory-game-go-online.git
+git clone https://github.com/Prispajer/memory-game-go-online
 
 ### 2. Przejdź do folderu projektu
 
