@@ -28,7 +28,6 @@ body {
   max-width: 1000px;
   padding: 50px;
   border-radius: $border-radius;
-  overflow: auto;
 
   @include m.game-responsive(mobile) {
     padding: 20px;
