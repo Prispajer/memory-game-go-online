@@ -14,11 +14,16 @@ body {
   box-sizing: border-box;
   font-family: $font-stack;
   width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   @include m.game-main-gradient-bg;
   overflow: auto;
+
+  @include m.game-responsive(mobile) {
+    margin: 20px 0;
+  }
 }
 
 .game-container {
