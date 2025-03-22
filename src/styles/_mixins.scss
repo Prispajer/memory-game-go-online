@@ -1,42 +1,138 @@
 @use "variables" as *;
 
-@mixin game-container-gradient-bg {
-  background: linear-gradient(135deg, $primary-color, $secondary-color);
+@mixin game-main-gradient-bg {
+  background-image: linear-gradient(
+    86deg,
+    $background-main-gradient-start 0%,
+    $background-main-gradient-end 100%
+  );
 }
 
 @mixin game-menu-gradient-bg {
-  background: linear-gradient(235deg, $primary-color, $secondary-color);
+  background: linear-gradient(
+    235deg,
+    $background-game-menu-gradient-start,
+    $background-game-menu-gradient-end
+  );
 }
 
-@mixin shadow {
-  box-shadow: 0 4px 8px $shadow-color;
+@mixin game-board-gradient-bg {
+  background: linear-gradient(
+    247deg,
+    $background-game-board-gradient-start,
+    $background-game-board-gradient-end
+  );
 }
 
-@mixin flex-center {
+@mixin game-victory-modal-bg {
+  background: linear-gradient(
+    45deg,
+    $background-game-victory-gradient-start 0%,
+    $background-game-victory-gradient-end 62%
+  );
+}
+
+@mixin game-flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@mixin flex-between {
+@mixin game-flex-between {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-@mixin cursor-default {
+@mixin game-primary-header {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: 800;
+  color: $primary-color;
+}
+
+@mixin game-secondary-header {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: $secondary-color;
+  font-weight: 800;
+}
+
+@mixin game-modal-container {
+  position: fixed;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1001;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  overflow: auto;
+}
+
+@mixin game-button-primary {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 800;
+  border: none;
+  border-radius: 5px;
+  background: $primary-color;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: $button-primary-hover;
+  }
+}
+
+@mixin game-ul-decoration-none {
+  list-style-type: none;
+  padding: 0;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+@mixin game-button-secondary {
+  background: $background-main-gradient-start;
+  padding: 10px 20px;
+  color: #fbf3e3;
+  font-weight: 800;
+}
+
+@mixin game-shadow-default {
+  box-shadow: 0 4px 8px $shadow-color;
+}
+
+@mixin game-cursor-default {
   cursor: default;
 }
 
-@mixin responsive($breakpoint) {
+@mixin game-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+@mixin game-responsive($breakpoint) {
   @if $breakpoint == mobile {
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       @content;
     }
   }
-  @if $breakpoint == tablet {
-    @media (max-width: 900px) {
-      @content;
-    }
-  }
+}
+
+@mixin game-animation-fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
 }

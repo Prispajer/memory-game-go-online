@@ -9,6 +9,7 @@ export enum GameState {
   Menu = "menu",
   Playing = "playing",
   GameOver = "gameover",
+  History = "history",
 }
 
 export enum GamePredefinedTileSets {

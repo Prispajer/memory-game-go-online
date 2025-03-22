@@ -34,6 +34,7 @@ export const useGameState = () => {
   const startTimer = useGameStore((state) => state.startTimer);
   const stopTimer = useGameStore((state) => state.stopTimer);
   const stopGame = useGameStore((state) => state.stopGame);
+  const startGame = useGameStore((state) => state.startGame);
 
   return {
     gameDifficulty,
@@ -61,5 +62,6 @@ export const useGameState = () => {
     startTimer,
     stopTimer,
     stopGame,
+    startGame,
   };
 };

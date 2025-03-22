@@ -5,6 +5,7 @@ import {
   GameState,
 } from "../types/enum";
 import { Tile } from "../types/interface";
+import gamePredefinedSets from "../constants/gamePredefinedSets";
 
 interface GameStore {
   gameDifficulty: GameDifficulty | null;
@@ -33,6 +34,7 @@ interface GameStore {
   startTimer: () => void;
   stopTimer: () => void;
   stopGame: () => void;
+  startGame: () => void;
 }
 
 let timerInterval: ReturnType<typeof setTimeout> | null = null;
@@ -62,7 +64,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   incrementMoves: () => set((state) => ({ movesCount: state.movesCount + 1 })),
   incrementMistakes: () =>
     set((state) => ({ mistakesCount: state.mistakesCount + 1 })),
-
   revealTile: (id: string) => {
     const {
       generatedTiles,
@@ -81,11 +82,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ revealedTiles: newRevealedTiles });
     if (newRevealedTiles.length === 2) {
       set({ isChecking: true });
-      incrementMoves();
-      setTimeout(checkMatch, 1000);
+      setTimeout(() => {
+        checkMatch();
+        incrementMoves();
+        set({ isChecking: false });
+      }, 1000);
     }
   },
-
   checkMatch: () => {
     const {
       revealedTiles,
@@ -109,17 +112,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ revealedTiles: [], isChecking: false });
     } else {
       incrementMistakes();
-      setTimeout(() => {
-        clearRevealedTiles();
-        set({ isChecking: false });
-      }, 1000);
+      clearRevealedTiles();
+      set({ isChecking: false });
     }
   },
-
   clearRevealedTiles: () => {
     set({ revealedTiles: [] });
   },
-
   startTimer: () => {
     if (timerInterval) return;
     timerInterval = setInterval(() => {
@@ -143,7 +142,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
       mistakesCount: 0,
       timeElapsed: 0,
       gamePredefinedTileSets: null,
+      message: null,
+      isChecking: false,
     });
     get().stopTimer();
+  },
+  startGame: () => {
+    const { gamePredefinedTileSet } = get();
+    set({
+      gameState: GameState.Playing,
+      gameDifficulty: null,
+      gamePredefinedTileSet: null,
+      generatedTiles: null,
+      revealedTiles: [],
+      movesCount: 0,
+      mistakesCount: 0,
+      timeElapsed: 0,
+      gamePredefinedTileSets: null,
+      message: null,
+      isChecking: false,
+    });
+    setTimeout(() => {
+      set({
+        gamePredefinedTileSets: gamePredefinedSets[gamePredefinedTileSet!],
+      });
+    }, 0);
+    get().startTimer();
   },
 }));

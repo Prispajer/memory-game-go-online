@@ -1,56 +1,65 @@
 @use "variables" as *;
-@use "mixins" as *;
+@use "mixins" as m;
 
 .game-stats-container {
-  @include flex-between;
+  @include m.game-flex-between;
   flex-wrap: wrap;
-  gap: 20px;
   width: 100%;
-  max-width: 800px;
   padding: 20px;
   border-radius: $border-radius;
   background: linear-gradient(135deg, #8e44ad, #c0392b);
   color: white;
   text-align: center;
+  gap: 10px;
   opacity: 0;
-  animation: fadeIn 0.5s ease-in-out forwards;
+  @include m.game-animation-fade-in;
+  @include m.game-board-gradient-bg;
 
-  @include responsive(mobile) {
+  @include m.game-responsive(mobile) {
     flex-direction: column;
     text-align: left;
     padding: 15px;
   }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+  &__stats {
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    @include m.game-cursor-default;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  &__end button {
+    @include m.game-button-secondary;
+    font-size: 18px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
-}
 
-.game-stats {
-  display: flex;
-  gap: 15px;
-  font-size: 18px;
-  @include cursor-default;
-}
+  span {
+    @include m.game-flex-center;
+    @include m.game-button-secondary;
+  }
 
-.game-end button {
-  background: $primary-color;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-  border: none;
+  @include m.game-responsive(mobile) {
+    place-items: center;
+    padding: 20px;
+    overflow: auto;
 
-  &:hover {
-    background: darken($primary-color, 10%);
-    transform: scale(1.05);
+    &__stats {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-size: 16px;
+      @include m.game-cursor-default;
+    }
+
+    &__end button {
+      font-size: 16px;
+    }
   }
 }

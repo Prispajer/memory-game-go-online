@@ -4,3 +4,11 @@ export interface Tile {
   isRevealed: boolean;
   isMatched: boolean;
 }
+
+export interface GameHistory {
+  date: Date;
+  difficulty: string;
+  mistakes: number;
+  moves: number;
+  time: number;
+}

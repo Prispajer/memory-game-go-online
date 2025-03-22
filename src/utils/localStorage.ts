@@ -1,18 +1,33 @@
-import { useGameStore } from "../store/useGameStore";
+import { GameDifficulty } from "../types/enum";
 
-export const saveGameHistory = () => {
-  const { movesCount, timeElapsed, gameDifficulty } = useGameStore.getState();
-  const gameHistory = {
-    date: new Date().toISOString(),
-    difficulty: gameDifficulty,
-    moves: movesCount,
-    time: timeElapsed,
-  };
-  const existingGameHistory = JSON.parse(
-    localStorage.getItem("gameHistory") || "[]"
-  );
-  existingGameHistory.push(gameHistory);
-  localStorage.setItem("gameHistory", JSON.stringify(existingGameHistory));
+export const saveGameHistory = (
+  movesCount: number,
+  mistakesCount: number,
+  timeElapsed: number,
+  gameDifficulty: GameDifficulty
+) => {
+  if (
+    movesCount !== undefined &&
+    mistakesCount !== undefined &&
+    timeElapsed !== undefined &&
+    gameDifficulty !== null
+  ) {
+    const gameHistory = {
+      date: new Date().toISOString(),
+      difficulty: gameDifficulty,
+      mistakes: mistakesCount,
+      moves: movesCount,
+      time: timeElapsed,
+    };
+
+    const existingGameHistory = JSON.parse(
+      localStorage.getItem("gameHistory") || "[]"
+    );
+    existingGameHistory.push(gameHistory);
+    localStorage.setItem("gameHistory", JSON.stringify(existingGameHistory));
+  } else {
+    console.error("Game history data is incomplete.");
+  }
 };
 
 export const loadGameHistory = () => {
@@ -20,4 +35,10 @@ export const loadGameHistory = () => {
     localStorage.getItem("gameHistory") || "[]"
   );
   return existingGameHistory;
+};
+
+export const loadLastGameHistory = () => {
+  return loadGameHistory().length > 0
+    ? loadGameHistory()[loadGameHistory().length - 1]
+    : null;
 };

@@ -1,91 +1,108 @@
 import React from "react";
 import GameStats from "./GameStats";
+import { GameVictoryModal } from "./GameVictoryModal";
 import { useGameState } from "../hooks/useGameState";
 import { generateGameBoard } from "../utils/gameSettings";
 import { GameDifficulty } from "../types/enum";
 import { GameState } from "../types/enum";
-import { Tile } from "../types/interface";
+import { saveGameHistory } from "../utils/localStorage";
 
 const GameBoard = () => {
   const {
     gameState,
-    gamePredefinedTileSet,
     gamePredefinedTileSets,
     gameDifficulty,
+    movesCount,
+    mistakesCount,
+    timeElapsed,
     generatedTiles,
     revealedTiles,
-    setGamePredefinedTileSets,
+    setGameState,
     setGeneratedTiles,
     revealTile,
-    startTimer,
+    stopGame,
+    startGame,
   } = useGameState();
 
   React.useEffect(() => {
     if (gameState === GameState.Playing) {
-      const selectedTiles = gamePredefinedTileSets
-        ? gamePredefinedTileSets
-        : [];
       setGeneratedTiles(
         generateGameBoard(
-          selectedTiles as string[],
+          gamePredefinedTileSets as string[] | [],
           gameDifficulty as GameDifficulty
         )
       );
-      startTimer();
     } else {
       setGeneratedTiles(null);
     }
+  }, [gameState, gamePredefinedTileSets, gameDifficulty, setGeneratedTiles]);
+
+  React.useEffect(() => {
+    if (generatedTiles && generatedTiles.length > 0) {
+      if (generatedTiles.every((tile) => tile.isMatched)) {
+        setGameState(GameState.GameOver);
+        saveGameHistory(
+          movesCount,
+          mistakesCount,
+          timeElapsed,
+          gameDifficulty as GameDifficulty
+        );
+      }
+    }
   }, [
-    gameState,
-    gamePredefinedTileSet,
     gameDifficulty,
-    gamePredefinedTileSets,
-    setGamePredefinedTileSets,
-    startTimer,
-    setGeneratedTiles,
+    mistakesCount,
+    movesCount,
+    timeElapsed,
+    generatedTiles,
+    setGameState,
   ]);
-
-  const handleTileClick = (id: string) => {
-    revealTile(id);
-  };
-
-  const getTileStyle = (tile: Tile) => {
-    if (tile.isMatched) return { backgroundColor: "green", cursor: "default" };
-    if (revealedTiles.some((revealed) => revealed.id === tile.id))
-      return { backgroundColor: "lightblue" };
-    return { backgroundColor: "gray" };
-  };
-
-  console.log(revealedTiles);
-  console.log(generatedTiles);
 
   return (
     <div className="game-container">
       <GameStats />
-      {(generatedTiles ?? []).length > 0 ? (
+      {gameState === GameState.Playing && (generatedTiles ?? []).length > 0 ? (
         <div
           data-difficulty-grid={
-            gameDifficulty ? GameDifficulty[gameDifficulty].toLowerCase() : null
+            gameDifficulty
+              ? GameDifficulty[gameDifficulty].toLowerCase()
+              : "medium"
           }
           className="game-board"
         >
           {generatedTiles?.map((tile) => (
             <button
+              key={tile.id}
               className="tile"
-              style={getTileStyle(tile)}
-              onClick={() => handleTileClick(tile.id)}
+              data-matched={tile.isMatched}
+              data-revealed={revealedTiles.some(
+                (revealed) => revealed.id === tile.id
+              )}
+              onClick={() => revealTile(tile.id)}
               disabled={tile.isMatched}
             >
               {revealedTiles.some((revealed) => revealed.id === tile.id)
                 ? tile.value
-                : null}
+                : tile.isMatched
+                ? "✔"
+                : "?"}
             </button>
           ))}
         </div>
-      ) : (
+      ) : gameState === GameState.Playing ? (
         <p className="game-board__empty">
           No tiles available. Please select a predefined set.
         </p>
+      ) : null}
+      {gameState === GameState.GameOver && (
+        <GameVictoryModal
+          movesCount={movesCount}
+          mistakesCount={mistakesCount}
+          timeElapsed={timeElapsed}
+          gameDifficulty={gameDifficulty}
+          stopGame={stopGame}
+          startGame={startGame}
+        />
       )}
     </div>
   );

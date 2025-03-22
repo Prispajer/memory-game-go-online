@@ -1,10 +1,22 @@
-$primary-color: #ff9a9e;
-$secondary-color: #fad0c4;
+$background-main-gradient-start: #181d72;
+$background-main-gradient-end: #b491c5;
+$background-game-menu-gradient-start: #21d4fd;
+$background-game-menu-gradient-end: #b721ff;
+$background-game-board-gradient-start: #4a3f6b;
+$background-game-board-gradient-end: #555ccd;
+$background-game-victory-gradient-start: #21d4fd;
+$background-game-victory-gradient-end: #b721ff;
+$primary-color: #f2d9a2;
+$secondary-color: #f2f2f2;
+$tertiary-color: #605640;
+$button-primary-color: #f2d9a2;
+$button-secondary-color: #fbf3e3;
+$button-primary-hover: #d9c391;
+$button-secondary-hover: #f9efd9;
 $tile-bg: #ffffff;
-$tile-border: #e1e1e1;
-$matched-color: #a0e7a0;
-$shadow-color: rgba(0, 0, 0, 0.1);
-
+$tile-border: #f0f0f0;
+$matched-color: #90c2e3;
+$shadow-color: rgba(0, 0, 0, 0.2);
 $font-stack: "Poppins", sans-serif;
 $tile-size: 85px;
 $border-radius: 12px;

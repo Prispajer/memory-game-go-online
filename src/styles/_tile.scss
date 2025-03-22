@@ -2,47 +2,31 @@
 @use "variables" as *;
 @use "mixins" as m;
 
-// Kolory
-$primary-color: #ff9a9e;
-$secondary-color: #fad0c4;
-$tile-bg: #ffffff;
-$tile-border: #e1e1e1;
-$matched-color: #a0e7a0;
-$shadow-color: rgba(0, 0, 0, 0.1);
-
-// Fonty i rozmiary
-$font-stack: "Poppins", sans-serif;
-$tile-size: 85px;
-$border-radius: 12px;
-
 .tile {
-  @include m.flex-center;
-  min-width: $tile-size;
+  @include m.game-flex-center;
   width: 100%;
-  max-width: 150px;
   min-height: $tile-size;
+  min-width: 60px;
   height: 100%;
   max-height: 150px;
   font-size: 32px;
   font-weight: bold;
   border-radius: $border-radius;
-  border: 2px solid $tile-border;
+  border: none;
   background: $tile-bg;
   cursor: pointer;
   transition: transform 0.4s ease, background 0.3s ease;
 
-  &:hover {
-    background: color.adjust($primary-color, $lightness: 20%);
+  &[data-revealed="true"] {
+    background-color: #777ee3;
   }
 
-  &.flipped {
-    transform: rotateY(180deg);
-    background: $secondary-color;
-  }
-
-  &.matched {
-    background: $matched-color;
-    border-color: color.adjust($matched-color, $lightness: -10%);
+  &[data-matched="true"] {
+    background-color: #5bb35e;
     cursor: default;
+  }
+
+  &[data-revealed="false"]:not([data-matched="true"]) {
+    background-color: #b491c5;
   }
 }
