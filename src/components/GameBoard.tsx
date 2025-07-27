@@ -10,8 +10,8 @@ import { saveGameHistory } from "../utils/localStorage";
 const GameBoard = () => {
   const {
     gameState,
-    gamePredefinedTileSets,
-    gameDifficulty,
+    availableTileSets,
+    selectedDifficulty,
     movesCount,
     mistakesCount,
     timeElapsed,
@@ -28,14 +28,14 @@ const GameBoard = () => {
     if (gameState === GameState.Playing) {
       setGeneratedTiles(
         generateGameBoard(
-          gamePredefinedTileSets as string[] | [],
-          gameDifficulty as GameDifficulty
+          availableTileSets as string[] | [],
+          selectedDifficulty as GameDifficulty
         )
       );
     } else {
       setGeneratedTiles(null);
     }
-  }, [gameState, gamePredefinedTileSets, gameDifficulty, setGeneratedTiles]);
+  }, [gameState, availableTileSets, selectedDifficulty]);
 
   React.useEffect(() => {
     if (generatedTiles && generatedTiles.length > 0) {
@@ -45,12 +45,12 @@ const GameBoard = () => {
           movesCount,
           mistakesCount,
           timeElapsed,
-          gameDifficulty as GameDifficulty
+          selectedDifficulty as GameDifficulty
         );
       }
     }
   }, [
-    gameDifficulty,
+    selectedDifficulty,
     mistakesCount,
     movesCount,
     timeElapsed,
@@ -64,8 +64,8 @@ const GameBoard = () => {
       {gameState === GameState.Playing && (generatedTiles ?? []).length > 0 ? (
         <div
           data-difficulty-grid={
-            gameDifficulty
-              ? GameDifficulty[gameDifficulty].toLowerCase()
+            selectedDifficulty
+              ? GameDifficulty[selectedDifficulty].toLowerCase()
               : "medium"
           }
           className="game-board"
@@ -99,7 +99,7 @@ const GameBoard = () => {
           movesCount={movesCount}
           mistakesCount={mistakesCount}
           timeElapsed={timeElapsed}
-          gameDifficulty={gameDifficulty}
+          selectedDifficulty={selectedDifficulty}
           stopGame={stopGame}
           startGame={startGame}
         />

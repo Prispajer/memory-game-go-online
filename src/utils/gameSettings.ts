@@ -28,13 +28,13 @@ export const getRandomPredefinedSet = (): GamePredefinedTileSets => {
 
 export const generateGameBoard = (
   gameTiles: string[],
-  gameDifficulty: GameDifficulty
+  selectedDifficulty: GameDifficulty
 ): Tile[] => {
   if (!gameTiles || gameTiles.length === 0) return [];
 
   const selectedTiles = gameTiles.slice(
     0,
-    gameDifficulty ?? GameDifficulty.Medium
+    selectedDifficulty ?? GameDifficulty.Medium
   );
 
   const tilesWithId: Tile[] = selectedTiles.flatMap((value) => {

@@ -12,8 +12,6 @@
   @include m.game-shadow-default;
   @include m.game-board-gradient-bg;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
   grid-gap: 10px;
 
   &__empty {
@@ -35,7 +33,7 @@
 
   &[data-difficulty-grid="hard"] {
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     place-items: center;
   }
 
@@ -52,25 +50,21 @@
 
     &[data-difficulty-grid="easy"] {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
       place-items: center;
     }
 
     &[data-difficulty-grid="medium"] {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
       place-items: center;
     }
 
     &[data-difficulty-grid="hard"] {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
       place-items: center;
     }
 
     &[data-difficulty-grid="extreme"] {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
       align-items: center;
     }
   }

@@ -1,5 +1,5 @@
 import { useGameState } from "../hooks/useGameState";
-import { formatTime } from "../utils/timeFormatter";
+import { formatTime } from "../utils/timeManager";
 import { GameState } from "../types/enum";
 
 const GameStats = () => {

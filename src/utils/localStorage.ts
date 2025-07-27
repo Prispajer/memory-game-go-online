@@ -4,17 +4,17 @@ export const saveGameHistory = (
   movesCount: number,
   mistakesCount: number,
   timeElapsed: number,
-  gameDifficulty: GameDifficulty
+  selectedDifficulty: GameDifficulty
 ) => {
   if (
     movesCount !== undefined &&
     mistakesCount !== undefined &&
     timeElapsed !== undefined &&
-    gameDifficulty !== null
+    selectedDifficulty !== null
   ) {
     const gameHistory = {
       date: new Date().toISOString(),
-      difficulty: gameDifficulty,
+      difficulty: selectedDifficulty,
       mistakes: mistakesCount,
       moves: movesCount,
       time: timeElapsed,

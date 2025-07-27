@@ -1,3 +1,4 @@
+import { startTimer } from "./../utils/timeManager";
 import { create } from "zustand";
 import {
   GameDifficulty,
@@ -6,61 +7,41 @@ import {
 } from "../types/enum";
 import { Tile } from "../types/interface";
 import gamePredefinedSets from "../constants/gamePredefinedSets";
+import { stopTimer } from "../utils/timeManager";
 
-interface GameStore {
-  gameDifficulty: GameDifficulty | null;
+export interface GameStore {
+  selectedDifficulty: GameDifficulty | null;
   gameState: GameState;
-  gamePredefinedTileSet: GamePredefinedTileSets | null;
-  gamePredefinedTileSets: string[] | null;
+  selectedTileSetKey: GamePredefinedTileSets | null;
+  availableTileSets: string[] | null;
   generatedTiles: Tile[] | null;
   revealedTiles: Tile[];
-  message: string | null;
   movesCount: number;
   mistakesCount: number;
   timeElapsed: number;
   isChecking: boolean;
-  setGameDifficulty: (gameDifficulty: GameDifficulty) => void;
-  setGameState: (gameState: GameState) => void;
-  setGamePredefinedTileSet: (gamePredefinedSet: GamePredefinedTileSets) => void;
-  setGamePredefinedTileSets: (gameTiles: string[]) => void;
-  setGeneratedTiles: (generatedTiles: Tile[] | null) => void;
-  setRevealedTiles: (revealedTiles: Tile[]) => void;
-  setMessage: (message: string) => void;
+  setField: <K extends keyof GameStore>(key: K, value: GameStore[K]) => void;
   incrementMoves: () => void;
   incrementMistakes: () => void;
   revealTile: (id: string) => void;
   checkMatch: () => void;
   clearRevealedTiles: () => void;
-  startTimer: () => void;
-  stopTimer: () => void;
   stopGame: () => void;
   startGame: () => void;
 }
 
-let timerInterval: ReturnType<typeof setTimeout> | null = null;
-
 export const useGameStore = create<GameStore>((set, get) => ({
-  gameDifficulty: null,
+  selectedDifficulty: null,
   gameState: GameState.Menu,
-  gamePredefinedTileSet: null,
-  gamePredefinedTileSets: null,
+  selectedTileSetKey: null,
+  availableTileSets: null,
   generatedTiles: null,
   revealedTiles: [],
-  message: null,
   movesCount: 0,
   mistakesCount: 0,
   timeElapsed: 0,
   isChecking: false,
-  setGameDifficulty: (gameDifficulty: GameDifficulty) =>
-    set({ gameDifficulty }),
-  setGameState: (gameState: GameState) => set({ gameState }),
-  setGamePredefinedTileSet: (gamePredefinedTileSet: GamePredefinedTileSets) =>
-    set({ gamePredefinedTileSet }),
-  setGamePredefinedTileSets: (gamePredefinedTileSets: string[]) =>
-    set({ gamePredefinedTileSets }),
-  setGeneratedTiles: (generatedTiles: Tile[] | null) => set({ generatedTiles }),
-  setRevealedTiles: (revealedTiles: Tile[]) => set({ revealedTiles }),
-  setMessage: (message: string) => set({ message }),
+  setField: (key, value) => set({ [key]: value }),
   incrementMoves: () => set((state) => ({ movesCount: state.movesCount + 1 })),
   incrementMistakes: () =>
     set((state) => ({ mistakesCount: state.mistakesCount + 1 })),
@@ -93,8 +74,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const {
       revealedTiles,
       generatedTiles,
+      setField,
       incrementMistakes,
-      setGeneratedTiles,
       clearRevealedTiles,
     } = get();
 
@@ -108,7 +89,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           ? { ...tile, isMatched: true }
           : tile
       );
-      setGeneratedTiles(updatedTiles as Tile[]);
+      setField("generatedTiles", updatedTiles as Tile[]);
       set({ revealedTiles: [], isChecking: false });
     } else {
       incrementMistakes();
@@ -119,54 +100,28 @@ export const useGameStore = create<GameStore>((set, get) => ({
   clearRevealedTiles: () => {
     set({ revealedTiles: [] });
   },
-  startTimer: () => {
-    if (timerInterval) return;
-    timerInterval = setInterval(() => {
-      set((state) => ({ timeElapsed: state.timeElapsed + 1 }));
-    }, 1000);
-  },
-  stopTimer: () => {
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-  },
   stopGame: () => {
     set({
       gameState: GameState.Menu,
-      gameDifficulty: null,
-      gamePredefinedTileSet: null,
+      selectedDifficulty: null,
+      selectedTileSetKey: null,
       generatedTiles: null,
       revealedTiles: [],
       movesCount: 0,
       mistakesCount: 0,
       timeElapsed: 0,
-      gamePredefinedTileSets: null,
-      message: null,
-      isChecking: false,
+      availableTileSets: null,
     });
-    get().stopTimer();
+    stopTimer();
   },
   startGame: () => {
-    const { gamePredefinedTileSet } = get();
+    const { selectedTileSetKey } = get();
     set({
       gameState: GameState.Playing,
-      gameDifficulty: null,
-      gamePredefinedTileSet: null,
-      generatedTiles: null,
-      revealedTiles: [],
-      movesCount: 0,
-      mistakesCount: 0,
-      timeElapsed: 0,
-      gamePredefinedTileSets: null,
-      message: null,
-      isChecking: false,
+      availableTileSets: gamePredefinedSets[selectedTileSetKey!],
     });
-    setTimeout(() => {
-      set({
-        gamePredefinedTileSets: gamePredefinedSets[gamePredefinedTileSet!],
-      });
-    }, 0);
-    get().startTimer();
+    startTimer(() => {
+      set((state) => ({ timeElapsed: state.timeElapsed + 1 }));
+    });
   },
 }));

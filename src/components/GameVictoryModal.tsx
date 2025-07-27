@@ -5,14 +5,14 @@ export const GameVictoryModal = ({
   movesCount,
   mistakesCount,
   timeElapsed,
-  gameDifficulty,
+  selectedDifficulty,
   stopGame,
   startGame,
 }: {
   movesCount: number;
   mistakesCount: number;
   timeElapsed: number;
-  gameDifficulty: GameDifficulty | null;
+  selectedDifficulty: GameDifficulty | null;
   stopGame: () => void;
   startGame: () => void;
 }) => {
@@ -39,7 +39,9 @@ export const GameVictoryModal = ({
               <li>Time: {timeElapsed} seconds</li>
               <li>
                 Difficulty:
-                {gameDifficulty ? GameDifficulty[gameDifficulty] : "Unknown"}
+                {selectedDifficulty
+                  ? GameDifficulty[selectedDifficulty]
+                  : "Unknown"}
               </li>
             </>
           )}

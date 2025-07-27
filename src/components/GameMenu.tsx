@@ -13,42 +13,37 @@ import GameHistory from "./GameHistory";
 
 const GameMenu = () => {
   const {
-    gameDifficulty,
+    selectedDifficulty,
     gameState,
-    gamePredefinedTileSet,
-    setGameDifficulty,
-    setGamePredefinedTileSet,
+    selectedTileSetKey,
+    setSelectedDifficulty,
+    setSelectedTileSetKey,
     startGame,
   } = useGameState();
 
   const [previewGameDifficulty, setPreviewGameDifficulty] = React.useState<
     GameDifficulty | "Random"
-  >(gameDifficulty || "Random");
-  const [previewGamePredefinedTitleSet, setPreviewGamePredefinedTitleSet] =
-    React.useState<GamePredefinedTileSets | "Random">(
-      gamePredefinedTileSet || "Random"
-    );
+  >(selectedDifficulty || "Random");
+  const [previewTileSetKey, setPreviewTileSetKey] = React.useState<
+    GamePredefinedTileSets | "Random"
+  >(selectedTileSetKey || "Random");
   const [showGameHistory, setShowGameHistory] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (previewGameDifficulty === "Random") {
-      setGameDifficulty(getRandomGameDifficulty());
+      setSelectedDifficulty(getRandomGameDifficulty());
     } else {
-      setGameDifficulty(previewGameDifficulty);
+      setSelectedDifficulty(previewGameDifficulty);
     }
-  }, [gameDifficulty, previewGameDifficulty, setGameDifficulty]);
+  }, [selectedDifficulty, previewGameDifficulty]);
 
   React.useEffect(() => {
-    if (previewGamePredefinedTitleSet === "Random") {
-      setGamePredefinedTileSet(getRandomPredefinedSet());
+    if (previewTileSetKey === "Random") {
+      setSelectedTileSetKey(getRandomPredefinedSet());
     } else {
-      setGamePredefinedTileSet(previewGamePredefinedTitleSet);
+      setSelectedTileSetKey(previewTileSetKey);
     }
-  }, [
-    gamePredefinedTileSet,
-    previewGamePredefinedTitleSet,
-    setGamePredefinedTileSet,
-  ]);
+  }, [selectedTileSetKey, previewTileSetKey]);
 
   if (gameState !== GameState.Menu) return null;
 
@@ -80,9 +75,9 @@ const GameMenu = () => {
           <div className="game-menu__predefined-set">
             <h2>Choose Game Predefined Set</h2>
             <select
-              value={previewGamePredefinedTitleSet}
+              value={previewTileSetKey}
               onChange={(event) =>
-                setPreviewGamePredefinedTitleSet(
+                setPreviewTileSetKey(
                   event.target.value as GamePredefinedTileSets | "Random"
                 )
               }

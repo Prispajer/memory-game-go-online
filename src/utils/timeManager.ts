@@ -1,0 +1,26 @@
+let timerInterval: ReturnType<typeof setTimeout> | null = null;
+
+export const startTimer = (incrementTimer: () => void) => {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    incrementTimer();
+  }, 1000);
+};
+
+export const stopTimer = () => {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+};
+
+export const formatTime = (seconds: number) => {
+  const h = Math.floor(seconds / 3600)
+    .toString()
+    .padStart(2, "0");
+  const m = Math.floor((seconds % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const s = (seconds % 60).toString().padStart(2, "0");
+  return `${h}:${m}:${s}`;
+};
