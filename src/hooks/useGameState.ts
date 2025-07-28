@@ -6,7 +6,6 @@ export const useGameState = () => {
   const selectedTileSetKey = useGameStore((state) => state.selectedTileSetKey);
   const generatedTiles = useGameStore((state) => state.generatedTiles);
   const revealedTiles = useGameStore((state) => state.revealedTiles);
-  const availableTileSets = useGameStore((state) => state.availableTileSets);
   const movesCount = useGameStore((state) => state.movesCount);
   const mistakesCount = useGameStore((state) => state.mistakesCount);
   const timeElapsed = useGameStore((state) => state.timeElapsed);
@@ -25,7 +24,6 @@ export const useGameState = () => {
   const incrementMistakes = useGameStore((state) => state.incrementMistakes);
   const revealTile = useGameStore((state) => state.revealTile);
   const checkMatch = useGameStore((state) => state.checkMatch);
-  const clearRevealedTiles = useGameStore((state) => state.clearRevealedTiles);
   const stopGame = useGameStore((state) => state.stopGame);
   const startGame = useGameStore((state) => state.startGame);
 
@@ -33,7 +31,6 @@ export const useGameState = () => {
     selectedDifficulty,
     gameState,
     selectedTileSetKey,
-    availableTileSets,
     generatedTiles,
     revealedTiles,
     movesCount,
@@ -48,7 +45,6 @@ export const useGameState = () => {
     incrementMistakes,
     revealTile,
     checkMatch,
-    clearRevealedTiles,
     stopGame,
     startGame,
   };

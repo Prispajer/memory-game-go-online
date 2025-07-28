@@ -6,11 +6,12 @@ import { generateGameBoard } from "../utils/gameSettings";
 import { GameDifficulty } from "../types/enum";
 import { GameState } from "../types/enum";
 import { saveGameHistory } from "../utils/localStorage";
+import gamePredefinedSets from "../constants/gamePredefinedSets";
 
 const GameBoard = () => {
   const {
     gameState,
-    availableTileSets,
+    selectedTileSetKey,
     selectedDifficulty,
     movesCount,
     mistakesCount,
@@ -28,14 +29,14 @@ const GameBoard = () => {
     if (gameState === GameState.Playing) {
       setGeneratedTiles(
         generateGameBoard(
-          availableTileSets as string[] | [],
+          gamePredefinedSets[selectedTileSetKey!],
           selectedDifficulty as GameDifficulty
         )
       );
     } else {
       setGeneratedTiles(null);
     }
-  }, [gameState, availableTileSets, selectedDifficulty]);
+  }, [gameState, selectedDifficulty]);
 
   React.useEffect(() => {
     if (generatedTiles && generatedTiles.length > 0) {

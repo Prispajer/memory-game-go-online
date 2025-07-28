@@ -1,19 +1,13 @@
-import { startTimer } from "./../utils/timeManager";
 import { create } from "zustand";
-import {
-  GameDifficulty,
-  GamePredefinedTileSets,
-  GameState,
-} from "../types/enum";
-import { Tile } from "../types/interface";
-import gamePredefinedSets from "../constants/gamePredefinedSets";
+import { startTimer } from "./../utils/timeManager";
 import { stopTimer } from "../utils/timeManager";
+import { GameDifficulty, GamePredefinedSets, GameState } from "../types/enum";
+import { Tile } from "../types/interface";
 
 export interface GameStore {
   selectedDifficulty: GameDifficulty | null;
   gameState: GameState;
-  selectedTileSetKey: GamePredefinedTileSets | null;
-  availableTileSets: string[] | null;
+  selectedTileSetKey: GamePredefinedSets | null;
   generatedTiles: Tile[] | null;
   revealedTiles: Tile[];
   movesCount: number;
@@ -25,7 +19,6 @@ export interface GameStore {
   incrementMistakes: () => void;
   revealTile: (id: string) => void;
   checkMatch: () => void;
-  clearRevealedTiles: () => void;
   stopGame: () => void;
   startGame: () => void;
 }
@@ -34,7 +27,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   selectedDifficulty: null,
   gameState: GameState.Menu,
   selectedTileSetKey: null,
-  availableTileSets: null,
   generatedTiles: null,
   revealedTiles: [],
   movesCount: 0,
@@ -59,9 +51,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const clickedTile = generatedTiles?.find((tile) => tile.id === id);
     if (!clickedTile) return;
 
-    const newRevealedTiles = [...revealedTiles, clickedTile];
-    set({ revealedTiles: newRevealedTiles });
-    if (newRevealedTiles.length === 2) {
+    const updatedRevealedTiles = [...revealedTiles, clickedTile];
+
+    set({ revealedTiles: updatedRevealedTiles });
+
+    if (updatedRevealedTiles.length === 2) {
       set({ isChecking: true });
       setTimeout(() => {
         checkMatch();
@@ -71,13 +65,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
   },
   checkMatch: () => {
-    const {
-      revealedTiles,
-      generatedTiles,
-      setField,
-      incrementMistakes,
-      clearRevealedTiles,
-    } = get();
+    const { revealedTiles, generatedTiles, incrementMistakes } = get();
 
     if (revealedTiles.length !== 2) return;
 
@@ -89,16 +77,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
           ? { ...tile, isMatched: true }
           : tile
       );
-      setField("generatedTiles", updatedTiles as Tile[]);
+
+      set({ generatedTiles: updatedTiles });
       set({ revealedTiles: [], isChecking: false });
     } else {
       incrementMistakes();
-      clearRevealedTiles();
-      set({ isChecking: false });
+      set({ revealedTiles: [], isChecking: false });
     }
-  },
-  clearRevealedTiles: () => {
-    set({ revealedTiles: [] });
   },
   stopGame: () => {
     set({
@@ -110,15 +95,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
       movesCount: 0,
       mistakesCount: 0,
       timeElapsed: 0,
-      availableTileSets: null,
     });
     stopTimer();
   },
   startGame: () => {
-    const { selectedTileSetKey } = get();
     set({
       gameState: GameState.Playing,
-      availableTileSets: gamePredefinedSets[selectedTileSetKey!],
     });
     startTimer(() => {
       set((state) => ({ timeElapsed: state.timeElapsed + 1 }));

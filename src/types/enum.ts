@@ -12,7 +12,7 @@ export enum GameState {
   History = "history",
 }
 
-export enum GamePredefinedTileSets {
+export enum GamePredefinedSets {
   Animals = "animals",
   Fruits = "fruits",
   Music = "music",

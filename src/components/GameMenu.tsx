@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  GameState,
-  GameDifficulty,
-  GamePredefinedTileSets,
-} from "../types/enum";
+import { GameState, GameDifficulty, GamePredefinedSets } from "../types/enum";
 import {
   getRandomGameDifficulty,
   getRandomPredefinedSet,
@@ -25,7 +21,7 @@ const GameMenu = () => {
     GameDifficulty | "Random"
   >(selectedDifficulty || "Random");
   const [previewTileSetKey, setPreviewTileSetKey] = React.useState<
-    GamePredefinedTileSets | "Random"
+    GamePredefinedSets | "Random"
   >(selectedTileSetKey || "Random");
   const [showGameHistory, setShowGameHistory] = React.useState<boolean>(false);
 
@@ -78,16 +74,16 @@ const GameMenu = () => {
               value={previewTileSetKey}
               onChange={(event) =>
                 setPreviewTileSetKey(
-                  event.target.value as GamePredefinedTileSets | "Random"
+                  event.target.value as GamePredefinedSets | "Random"
                 )
               }
             >
-              <option value={GamePredefinedTileSets.Animals}>Animals</option>
-              <option value={GamePredefinedTileSets.Fruits}>Fruits</option>
-              <option value={GamePredefinedTileSets.Music}>Music</option>
-              <option value={GamePredefinedTileSets.Space}>Space</option>
-              <option value={GamePredefinedTileSets.Sports}>Sports</option>
-              <option value={GamePredefinedTileSets.Fantasy}>Fantasy</option>
+              <option value={GamePredefinedSets.Animals}>Animals</option>
+              <option value={GamePredefinedSets.Fruits}>Fruits</option>
+              <option value={GamePredefinedSets.Music}>Music</option>
+              <option value={GamePredefinedSets.Space}>Space</option>
+              <option value={GamePredefinedSets.Sports}>Sports</option>
+              <option value={GamePredefinedSets.Fantasy}>Fantasy</option>
               <option value="Random">Random</option>
             </select>
           </div>

@@ -1,7 +1,7 @@
-import { GamePredefinedTileSets } from "../types/enum";
+import { GamePredefinedSets } from "../types/enum";
 
-const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
-  [GamePredefinedTileSets.Animals]: [
+const gamePredefinedSets: Record<GamePredefinedSets, string[]> = {
+  [GamePredefinedSets.Animals]: [
     "🐶",
     "🐱",
     "🐭",
@@ -13,7 +13,7 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
     "🐯",
     "🦁",
   ],
-  [GamePredefinedTileSets.Fruits]: [
+  [GamePredefinedSets.Fruits]: [
     "🍎",
     "🍌",
     "🍇",
@@ -25,7 +25,7 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
     "🍍",
     "🍐",
   ],
-  [GamePredefinedTileSets.Music]: [
+  [GamePredefinedSets.Music]: [
     "🎵",
     "🎸",
     "🎺",
@@ -37,7 +37,7 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
     "🎹",
     "🎼",
   ],
-  [GamePredefinedTileSets.Space]: [
+  [GamePredefinedSets.Space]: [
     "🚀",
     "🪐",
     "🌌",
@@ -49,7 +49,7 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
     "👾",
     "🛰️",
   ],
-  [GamePredefinedTileSets.Sports]: [
+  [GamePredefinedSets.Sports]: [
     "⚽",
     "🏀",
     "🏈",
@@ -61,7 +61,7 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
     "🏄",
     "🚴",
   ],
-  [GamePredefinedTileSets.Fantasy]: [
+  [GamePredefinedSets.Fantasy]: [
     "🦄",
     "🐲",
     "🧙‍♂️",
@@ -75,5 +75,4 @@ const gamePredefinedSets: Record<GamePredefinedTileSets, string[]> = {
   ],
 };
 
-export type GamePredefinedSetsKey = keyof typeof gamePredefinedSets;
 export default gamePredefinedSets;
